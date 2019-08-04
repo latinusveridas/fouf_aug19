@@ -11,22 +11,20 @@ var list = new List({
 
 list.run(answers)
   .then(async function(answer) {
-
     switch (answer) {
-
       case "List users":
        const userList = await prisma.users()
        console.log(userList)
-
+        break
       case  "Delete user":
-
+        const del = await prisma.deleteManyUsers({name : "Quentin"})
+        console.log(`User ${del.name} deleted !`)
+        break
       case "Sign up":
         const sign = await prisma.createUser({name : "Quentin",password : "qwerty"})
         console.log (`User ${sign.name} created !`)
-
+        break
       default:
         // do nothing
     }
-
-
   });
