@@ -1,25 +1,4 @@
 const { prisma } = require('./generated/prisma-client')
-/*
-// A `main` function so that we can use async/await
-async function main() {
-  // Create a new user called `Alice`
-  //const newUser = await prisma.createUser({ name: 'Alice' })
-  //console.log(`Created new user: ${newUser.name} (ID: ${newUser.id})`)
-
-  const del = await prisma.deleteManyUsers({name : "Alice" })
-
-  // Read all users from the database and print them to the console
-  const allUsers = await prisma.users()
-  console.log(allUsers)
-}
-
-main().catch(e => console.error(e))
-
-*/
-
-/*server.get('/signup', function(req,res){
-})*/
-
 var answers = {foo: 'baz'};
 var List = require('prompt-list');
 
