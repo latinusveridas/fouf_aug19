@@ -1,0 +1,24 @@
+{
+  "name": "fouf_aug19",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/latinusveridas/fouf_aug19.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/latinusveridas/fouf_aug19/issues"
+  },
+  "homepage": "https://github.com/latinusveridas/fouf_aug19#readme",
+  "dependencies": {
+    "prisma-client-lib": "^1.34.3",
+    "prompt-list": "3.2.0"
+  }
+}
