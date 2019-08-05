@@ -13,8 +13,7 @@ app.get('/createquentin', async (req, res) => {
 })
 
 app.get('/gettoken', async (req,res) => {
-  jwt.sign('thepayload', 'thekey', function(err, token) {
-    console.log(token)
+  jwt.sign('thepayload', 'thekey', {exp: '2d'}, function(err, token) {
     res.send(token)
   })
 })
