@@ -6,6 +6,16 @@ const bodyParser = require('body-parser')
 const List = require('prompt-list')
 var answers = {foo: 'baz'}
 
+prisma.createPicture({owner: 'Quentin', picture_name: '01.jpg'})
+prisma.createPicture({owner: 'Quentin', picture_name: '02.jpg'})
+prisma.createPicture({owner: 'Quentin', picture_name: '03.jpg'})
+prisma.createPicture({owner: 'Quentin', picture_name: '04.jpg'})
+prisma.createPicture({owner: 'Quentin', picture_name: '05.jpg'})
+prisma.createPicture({owner: 'Quentin', picture_name: '06.jpg'})
+prisma.createPicture({owner: 'Quentin', picture_name: '07.jpg'})
+prisma.createPicture({owner: 'Quentin', picture_name: '08.jpg'})
+prisma.createPicture({owner: 'Quentin', picture_name: '09.jpg'})
+prisma.createPicture({owner: 'Quentin', picture_name: '10.jpg'})
 
 const list = new List({
   name: 'order',
