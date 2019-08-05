@@ -1,7 +1,10 @@
-const { prisma } = require('./generated/prisma-client')
-const { prompt } = require('enquirer')
+const prisma = require('./generated/prisma-client')
+const prompt = require('enquirer') 
+const express = require('express')
+const bodyParser = require('body-parser')
+
+const List = require('prompt-list')
 var answers = {foo: 'baz'}
-var List = require('prompt-list')
 
 /*
 const list = new List({
