@@ -22,3 +22,6 @@ app.get('/getusers', async (req, res) => {
   const userList = await prisma.users()
   res.send(userList)
 })
+
+
+module.exports = app
