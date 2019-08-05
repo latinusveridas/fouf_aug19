@@ -6,7 +6,7 @@ const bodyParser = require('body-parser')
 const List = require('prompt-list')
 var answers = {foo: 'baz'}
 
-/*
+
 const list = new List({
   name: 'order',
   message: 'Which function to launch ? ',
@@ -33,35 +33,4 @@ list.run(answers)
         // do nothing
     }
   });
-*/
 
-const list = new List({message: `What do you wanna do ?`,choices:[`Signin`,`Signup`], when:function(answers) {return answers.foo === 'baz';}})
-
-list.run(answers)
-  .then(async function(answer) {
-    switch (answer) {
-      case "Signin":
-        const auth = await authUser()
-        break
-      case  "Signup":
-        break
-      default:
-        // do nothing
-    }
-  });
-
-// Prompt with Name & JWT, if success -> prompt with new choices
-async function authUser() {
-const response = await prompt([
-  {
-    type: 'input',
-    name: 'name',
-    message: 'Please enter your name'
-  },
-  {
-    type: 'input',
-    name: 'jwt',
-    message: 'Please enter the JWT'
-  }
-])
-}
