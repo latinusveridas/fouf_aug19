@@ -8,7 +8,8 @@ const PORT = 3000
 var app = express()
 
 //Open area
-
+var open = require('./openarea')
+app.use('/open', open)
 
 //Restricted area
 var restr = require('./protectedarea')
