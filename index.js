@@ -12,6 +12,12 @@ app.get('/createquentin', async (req, res) => {
   res.send(user)
 })
 
+app.get('/gettoken', async (req,res) => {
+  jwt.sign({ foo: 'bar' }, 'thekey', { algorithm: 'RS256' }, function(err, token) {
+    res.send(token)
+  })
+})
+
 app.use((req, res, next) => {
   const authorization = req.headers
   jwt.verify(authorization, 'secret', (err, decodedToken) => {
