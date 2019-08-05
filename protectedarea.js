@@ -1,5 +1,5 @@
 var express = require('express')
-var prisma = require('./generated/prisma-client')
+var {prisma} = require('./generated/prisma-client')
 var jwt = require('jsonwebtoken')
 var bodyParser = require('body-parser')
 var app = express()
