@@ -28,4 +28,4 @@ app.get('/getusers', async (req, res) => {
   res.send(userList)
 })
 
-app.listen(PORT, () => {console.log('listening on port 3000')})
+app.listen(PORT, () => {console.log(`Listening on port ${PORT}`)})
