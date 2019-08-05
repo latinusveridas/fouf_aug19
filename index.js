@@ -14,6 +14,7 @@ app.get('/createquentin', async (req, res) => {
 
 app.get('/gettoken', async (req,res) => {
   jwt.sign({ foo: 'bar' }, 'thekey', { algorithm: 'RS256' }, function(err, token) {
+    console.log(token)
     res.send(token)
   })
 })
