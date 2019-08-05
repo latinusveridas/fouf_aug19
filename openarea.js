@@ -15,3 +15,5 @@ app.get('/gettoken', async (req,res) => {
     res.send(token)
   })
 })
+
+module.exports = app
