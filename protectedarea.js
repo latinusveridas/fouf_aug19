@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 /*------------------ checkpoints---------------- */
 app.use((req, res, next) => {
   const authorization = req.headers['jwt']
-  console.log(`Received data is ${authorization}`)
+  console.log(`Received data is ${req.headers}`)
   jwt.verify(authorization, 'secret', (err, decodedToken) => {
     if (err || !decodedToken) {
       res.status(401).send('Not authorized')
