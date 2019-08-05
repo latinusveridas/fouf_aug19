@@ -37,6 +37,7 @@ list.run(answers)
   .then(async function(answer) {
     switch (answer) {
       case "Signin":
+        const auth = await authUser()
         break
       case  "Signup":
         break
