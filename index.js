@@ -5,7 +5,11 @@ const jwt = require('jsonwebtoken')
 const bodyParser = require('body-parser')
 
 const PORT = 3000
+
 var app = express()
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
 
 //Open area
 var open = require('./openarea')
