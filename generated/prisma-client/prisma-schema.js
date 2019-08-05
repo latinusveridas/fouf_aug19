@@ -3,7 +3,11 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregateUser {
+/* GraphQL */ `type AggregatePicture {
+  count: Int!
+}
+
+type AggregateUser {
   count: Int!
 }
 
@@ -14,6 +18,12 @@ type BatchPayload {
 scalar Long
 
 type Mutation {
+  createPicture(data: PictureCreateInput!): Picture!
+  updatePicture(data: PictureUpdateInput!, where: PictureWhereUniqueInput!): Picture
+  updateManyPictures(data: PictureUpdateManyMutationInput!, where: PictureWhereInput): BatchPayload!
+  upsertPicture(where: PictureWhereUniqueInput!, create: PictureCreateInput!, update: PictureUpdateInput!): Picture!
+  deletePicture(where: PictureWhereUniqueInput!): Picture
+  deleteManyPictures(where: PictureWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -39,7 +49,111 @@ type PageInfo {
   endCursor: String
 }
 
+type Picture {
+  id: ID!
+  picture_name: String!
+  owner: User!
+}
+
+type PictureConnection {
+  pageInfo: PageInfo!
+  edges: [PictureEdge]!
+  aggregate: AggregatePicture!
+}
+
+input PictureCreateInput {
+  id: ID
+  picture_name: String!
+  owner: UserCreateOneInput!
+}
+
+type PictureEdge {
+  node: Picture!
+  cursor: String!
+}
+
+enum PictureOrderByInput {
+  id_ASC
+  id_DESC
+  picture_name_ASC
+  picture_name_DESC
+}
+
+type PicturePreviousValues {
+  id: ID!
+  picture_name: String!
+}
+
+type PictureSubscriptionPayload {
+  mutation: MutationType!
+  node: Picture
+  updatedFields: [String!]
+  previousValues: PicturePreviousValues
+}
+
+input PictureSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: PictureWhereInput
+  AND: [PictureSubscriptionWhereInput!]
+  OR: [PictureSubscriptionWhereInput!]
+  NOT: [PictureSubscriptionWhereInput!]
+}
+
+input PictureUpdateInput {
+  picture_name: String
+  owner: UserUpdateOneRequiredInput
+}
+
+input PictureUpdateManyMutationInput {
+  picture_name: String
+}
+
+input PictureWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  picture_name: String
+  picture_name_not: String
+  picture_name_in: [String!]
+  picture_name_not_in: [String!]
+  picture_name_lt: String
+  picture_name_lte: String
+  picture_name_gt: String
+  picture_name_gte: String
+  picture_name_contains: String
+  picture_name_not_contains: String
+  picture_name_starts_with: String
+  picture_name_not_starts_with: String
+  picture_name_ends_with: String
+  picture_name_not_ends_with: String
+  owner: UserWhereInput
+  AND: [PictureWhereInput!]
+  OR: [PictureWhereInput!]
+  NOT: [PictureWhereInput!]
+}
+
+input PictureWhereUniqueInput {
+  id: ID
+}
+
 type Query {
+  picture(where: PictureWhereUniqueInput!): Picture
+  pictures(where: PictureWhereInput, orderBy: PictureOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Picture]!
+  picturesConnection(where: PictureWhereInput, orderBy: PictureOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PictureConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -47,6 +161,7 @@ type Query {
 }
 
 type Subscription {
+  picture(where: PictureSubscriptionWhereInput): PictureSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
@@ -73,6 +188,11 @@ input UserCreateInput {
 input UserCreateManyInput {
   create: [UserCreateInput!]
   connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 type UserEdge {
@@ -200,9 +320,21 @@ input UserUpdateManyWithWhereNestedInput {
   data: UserUpdateManyDataInput!
 }
 
+input UserUpdateOneRequiredInput {
+  create: UserCreateInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+  connect: UserWhereUniqueInput
+}
+
 input UserUpdateWithWhereUniqueNestedInput {
   where: UserWhereUniqueInput!
   data: UserUpdateDataInput!
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserUpsertWithWhereUniqueNestedInput {

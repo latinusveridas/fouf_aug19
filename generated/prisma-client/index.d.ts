@@ -16,6 +16,7 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
+  picture: (where?: PictureWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
 
@@ -38,6 +39,25 @@ export interface Prisma {
    * Queries
    */
 
+  picture: (where: PictureWhereUniqueInput) => PictureNullablePromise;
+  pictures: (args?: {
+    where?: PictureWhereInput;
+    orderBy?: PictureOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Picture>;
+  picturesConnection: (args?: {
+    where?: PictureWhereInput;
+    orderBy?: PictureOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => PictureConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserNullablePromise;
   users: (args?: {
     where?: UserWhereInput;
@@ -63,6 +83,22 @@ export interface Prisma {
    * Mutations
    */
 
+  createPicture: (data: PictureCreateInput) => PicturePromise;
+  updatePicture: (args: {
+    data: PictureUpdateInput;
+    where: PictureWhereUniqueInput;
+  }) => PicturePromise;
+  updateManyPictures: (args: {
+    data: PictureUpdateManyMutationInput;
+    where?: PictureWhereInput;
+  }) => BatchPayloadPromise;
+  upsertPicture: (args: {
+    where: PictureWhereUniqueInput;
+    create: PictureCreateInput;
+    update: PictureUpdateInput;
+  }) => PicturePromise;
+  deletePicture: (where: PictureWhereUniqueInput) => PicturePromise;
+  deleteManyPictures: (where?: PictureWhereInput) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (args: {
     data: UserUpdateInput;
@@ -88,6 +124,9 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  picture: (
+    where?: PictureSubscriptionWhereInput
+  ) => PictureSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
@@ -109,9 +148,15 @@ export type UserOrderByInput =
   | "password_ASC"
   | "password_DESC";
 
+export type PictureOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "picture_name_ASC"
+  | "picture_name_DESC";
+
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export type UserWhereUniqueInput = AtLeastOne<{
+export type PictureWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
@@ -166,6 +211,56 @@ export interface UserWhereInput {
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
+export interface PictureWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  picture_name?: Maybe<String>;
+  picture_name_not?: Maybe<String>;
+  picture_name_in?: Maybe<String[] | String>;
+  picture_name_not_in?: Maybe<String[] | String>;
+  picture_name_lt?: Maybe<String>;
+  picture_name_lte?: Maybe<String>;
+  picture_name_gt?: Maybe<String>;
+  picture_name_gte?: Maybe<String>;
+  picture_name_contains?: Maybe<String>;
+  picture_name_not_contains?: Maybe<String>;
+  picture_name_starts_with?: Maybe<String>;
+  picture_name_not_starts_with?: Maybe<String>;
+  picture_name_ends_with?: Maybe<String>;
+  picture_name_not_ends_with?: Maybe<String>;
+  owner?: Maybe<UserWhereInput>;
+  AND?: Maybe<PictureWhereInput[] | PictureWhereInput>;
+  OR?: Maybe<PictureWhereInput[] | PictureWhereInput>;
+  NOT?: Maybe<PictureWhereInput[] | PictureWhereInput>;
+}
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface PictureCreateInput {
+  id?: Maybe<ID_Input>;
+  picture_name: String;
+  owner: UserCreateOneInput;
+}
+
+export interface UserCreateOneInput {
+  create?: Maybe<UserCreateInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
 export interface UserCreateInput {
   id?: Maybe<ID_Input>;
   name: String;
@@ -178,7 +273,19 @@ export interface UserCreateManyInput {
   connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
 }
 
-export interface UserUpdateInput {
+export interface PictureUpdateInput {
+  picture_name?: Maybe<String>;
+  owner?: Maybe<UserUpdateOneRequiredInput>;
+}
+
+export interface UserUpdateOneRequiredInput {
+  create?: Maybe<UserCreateInput>;
+  update?: Maybe<UserUpdateDataInput>;
+  upsert?: Maybe<UserUpsertNestedInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateDataInput {
   name?: Maybe<String>;
   password?: Maybe<String>;
   friends?: Maybe<UserUpdateManyInput>;
@@ -207,12 +314,6 @@ export interface UserUpdateManyInput {
 export interface UserUpdateWithWhereUniqueNestedInput {
   where: UserWhereUniqueInput;
   data: UserUpdateDataInput;
-}
-
-export interface UserUpdateDataInput {
-  name?: Maybe<String>;
-  password?: Maybe<String>;
-  friends?: Maybe<UserUpdateManyInput>;
 }
 
 export interface UserUpsertWithWhereUniqueNestedInput {
@@ -279,9 +380,35 @@ export interface UserUpdateManyDataInput {
   password?: Maybe<String>;
 }
 
+export interface UserUpsertNestedInput {
+  update: UserUpdateDataInput;
+  create: UserCreateInput;
+}
+
+export interface PictureUpdateManyMutationInput {
+  picture_name?: Maybe<String>;
+}
+
+export interface UserUpdateInput {
+  name?: Maybe<String>;
+  password?: Maybe<String>;
+  friends?: Maybe<UserUpdateManyInput>;
+}
+
 export interface UserUpdateManyMutationInput {
   name?: Maybe<String>;
   password?: Maybe<String>;
+}
+
+export interface PictureSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<PictureWhereInput>;
+  AND?: Maybe<PictureSubscriptionWhereInput[] | PictureSubscriptionWhereInput>;
+  OR?: Maybe<PictureSubscriptionWhereInput[] | PictureSubscriptionWhereInput>;
+  NOT?: Maybe<PictureSubscriptionWhereInput[] | PictureSubscriptionWhereInput>;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -297,6 +424,33 @@ export interface UserSubscriptionWhereInput {
 
 export interface NodeNode {
   id: ID_Output;
+}
+
+export interface Picture {
+  id: ID_Output;
+  picture_name: String;
+}
+
+export interface PicturePromise extends Promise<Picture>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  picture_name: () => Promise<String>;
+  owner: <T = UserPromise>() => T;
+}
+
+export interface PictureSubscription
+  extends Promise<AsyncIterator<Picture>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  picture_name: () => Promise<AsyncIterator<String>>;
+  owner: <T = UserSubscription>() => T;
+}
+
+export interface PictureNullablePromise
+  extends Promise<Picture | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  picture_name: () => Promise<String>;
+  owner: <T = UserPromise>() => T;
 }
 
 export interface User {
@@ -354,25 +508,25 @@ export interface UserNullablePromise
   }) => T;
 }
 
-export interface UserConnection {
+export interface PictureConnection {
   pageInfo: PageInfo;
-  edges: UserEdge[];
+  edges: PictureEdge[];
 }
 
-export interface UserConnectionPromise
-  extends Promise<UserConnection>,
+export interface PictureConnectionPromise
+  extends Promise<PictureConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<UserEdge>>() => T;
-  aggregate: <T = AggregateUserPromise>() => T;
+  edges: <T = FragmentableArray<PictureEdge>>() => T;
+  aggregate: <T = AggregatePicturePromise>() => T;
 }
 
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnection>>,
+export interface PictureConnectionSubscription
+  extends Promise<AsyncIterator<PictureConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PictureEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePictureSubscription>() => T;
 }
 
 export interface PageInfo {
@@ -396,6 +550,60 @@ export interface PageInfoSubscription
   hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
   startCursor: () => Promise<AsyncIterator<String>>;
   endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface PictureEdge {
+  node: Picture;
+  cursor: String;
+}
+
+export interface PictureEdgePromise extends Promise<PictureEdge>, Fragmentable {
+  node: <T = PicturePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface PictureEdgeSubscription
+  extends Promise<AsyncIterator<PictureEdge>>,
+    Fragmentable {
+  node: <T = PictureSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregatePicture {
+  count: Int;
+}
+
+export interface AggregatePicturePromise
+  extends Promise<AggregatePicture>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregatePictureSubscription
+  extends Promise<AsyncIterator<AggregatePicture>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface UserConnection {
+  pageInfo: PageInfo;
+  edges: UserEdge[];
+}
+
+export interface UserConnectionPromise
+  extends Promise<UserConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<UserEdge>>() => T;
+  aggregate: <T = AggregateUserPromise>() => T;
+}
+
+export interface UserConnectionSubscription
+  extends Promise<AsyncIterator<UserConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserSubscription>() => T;
 }
 
 export interface UserEdge {
@@ -445,6 +653,50 @@ export interface BatchPayloadSubscription
   extends Promise<AsyncIterator<BatchPayload>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface PictureSubscriptionPayload {
+  mutation: MutationType;
+  node: Picture;
+  updatedFields: String[];
+  previousValues: PicturePreviousValues;
+}
+
+export interface PictureSubscriptionPayloadPromise
+  extends Promise<PictureSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = PicturePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = PicturePreviousValuesPromise>() => T;
+}
+
+export interface PictureSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<PictureSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = PictureSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = PicturePreviousValuesSubscription>() => T;
+}
+
+export interface PicturePreviousValues {
+  id: ID_Output;
+  picture_name: String;
+}
+
+export interface PicturePreviousValuesPromise
+  extends Promise<PicturePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  picture_name: () => Promise<String>;
+}
+
+export interface PicturePreviousValuesSubscription
+  extends Promise<AsyncIterator<PicturePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  picture_name: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserSubscriptionPayload {
@@ -524,6 +776,10 @@ export type Long = string;
 export const models: Model[] = [
   {
     name: "User",
+    embedded: false
+  },
+  {
+    name: "Picture",
     embedded: false
   }
 ];
