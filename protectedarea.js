@@ -7,8 +7,10 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 /*------------------ checkpoints---------------- */
 app.use((req, res, next) => {
-  const token = req.headers['x-access-token'] || req.headers['authorization'];
-  console.log(`Received data is ${token}`)
+  const rawtoken = req.headers['x-access-token'] || req.headers['authorization'];
+  console.log(`Received data is ${rawtoken}`)
+  const token = rawtoken.slice(7, rawtoken.length)
+  console.log(token)
   jwt.verify(token, 'secret', (err, decodedToken) => {
     if (err || !decodedToken) {
       res.status(401).send('Not authorized')
