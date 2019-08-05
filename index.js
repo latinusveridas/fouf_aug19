@@ -7,7 +7,7 @@ const bodyParser = require('body-parser')
 const PORT = 3000
 const app = express()
 
-app.get('/createquentin', (req, res) => {
+app.get('/createquentin', async (req, res) => {
   const user = await prisma.createUser({name : "Quentin",password : "qwerty"})
   res.send(user)
 })
@@ -23,7 +23,7 @@ app.use((req, res, next) => {
   })
 })
 
-app.get('/getusers', (req, res) => {
+app.get('/getusers', async (req, res) => {
   const userList = await prisma.users()
   res.send(userList)
 })
