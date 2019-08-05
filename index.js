@@ -2,7 +2,8 @@ const { prisma } = require('./generated/prisma-client')
 var answers = {foo: 'baz'};
 var List = require('prompt-list');
 
-var list = new List({
+/*
+const list = new List({
   name: 'order',
   message: 'Which function to launch ? ',
   choices: ['List users', 'Delete user','Sign up'],
@@ -28,3 +29,24 @@ list.run(answers)
         // do nothing
     }
   });
+*/
+
+const list = new List({message: `What do you wanna do ?`,choices:[`Signin`,`Signup`], when:function(answers) {return answers.foo === 'baz';}})
+
+list.run(answers)
+  .then(async function(answer) {
+    switch (answer) {
+      case "Signin":
+        break
+      case  "Signup":
+        break
+      default:
+        // do nothing
+    }
+  });
+
+// Prompt with Name & JWT, if success -> prompt with new choices
+async function authUser() {
+  const list = new List({message: `Please enter the name & jwt`, choices: [`Name`, `JWT`],when: function(answers) {return answers.foo === 'baz';}})
+  list.run(answers).then(
+}
