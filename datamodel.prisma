@@ -4,3 +4,9 @@ type User {
   password: String! @default(value:"admin")
   friends: [User] @relation(link: INLINE)
 }
+
+type Picture {
+  id: ID! @id
+  picture_name: String!
+  owner: User! @relation(link: INLINE)
+}
