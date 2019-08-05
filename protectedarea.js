@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use((req, res, next) => {
   const token = req.headers['x-access-token'] || req.headers['authorization'];
   console.log(`Received data is ${token}`)
-  jwt.verify(authorization, 'secret', (err, decodedToken) => {
+  jwt.verify(token, 'secret', (err, decodedToken) => {
     if (err || !decodedToken) {
       res.status(401).send('Not authorized')
       return
