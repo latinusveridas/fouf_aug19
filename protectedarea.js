@@ -11,7 +11,7 @@ app.use((req, res, next) => {
   console.log(`Received data is ${rawtoken}`)
   const token = rawtoken.slice(7, rawtoken.length)
   console.log(token)
-  jwt.verify(token, 'secret', (err, decodedToken) => {
+  jwt.verify(token, 'thekey', (err, decodedToken) => {
     if (err || !decodedToken) {
       res.status(401).send('Not authorized')
       return
