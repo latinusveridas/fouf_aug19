@@ -49,5 +49,9 @@ list.run(answers)
 // Prompt with Name & JWT, if success -> prompt with new choices
 async function authUser() {
   const list = new List({message: `Please enter the name & jwt`, choices: [`Name`, `JWT`],when: function(answers) {return answers.foo === 'baz';}})
-  list.run(answers).then(
+  list.run(answers).then(async function(answer) {
+    switch (answer) {
+
+    }
+  })
 }
