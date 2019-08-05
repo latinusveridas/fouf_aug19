@@ -13,7 +13,7 @@ app.get('/createquentin', async (req, res) => {
 })
 
 app.get('/gettoken', async (req,res) => {
-  jwt.sign('thepayload', 'thekey', {expiresIn: '12h'}, (err, token) => {
+  jwt.sign({password: 'x'}, 'thekey', {expiresIn: '12h'}, (err, token) => {
     console.log(token)
     res.send(token)
   })
