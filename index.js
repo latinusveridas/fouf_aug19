@@ -1,11 +1,11 @@
 const prisma = require('./generated/prisma-client')
 const prompt = require('enquirer') 
-const express = require('express')
+var express = require('express')
 const jwt = require('jsonwebtoken')
 const bodyParser = require('body-parser')
 
 const PORT = 3000
-const app = express()
+var app = express()
 
 app.get('/createquentin', async (req, res) => {
   const user = await prisma.createUser({name : "Quentin",password : "qwerty"})
