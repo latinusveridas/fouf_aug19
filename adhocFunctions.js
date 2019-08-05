@@ -1,4 +1,4 @@
-const prisma = require('./generated/prisma-client')
+const {prisma} = require('./generated/prisma-client')
 const prompt = require('enquirer') 
 const express = require('express')
 const bodyParser = require('body-parser')
