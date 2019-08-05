@@ -7,8 +7,9 @@ const bodyParser = require('body-parser')
 const PORT = 3000
 const app = express()
 
-app.get('/CreateUser', (req, res) => {
-  res.send('posts')
+app.get('/createquentin', (req, res) => {
+  const user = await prisma.createUser({name : "Quentin",password : "qwerty"})
+  res.send(user)
 })
 
 app.use((req, res, next) => {
@@ -22,8 +23,9 @@ app.use((req, res, next) => {
   })
 })
 
-app.get('/GetUsers', (req, res) => {
-  res.send('protected posts')
+app.get('/getusers', (req, res) => {
+  const userList = await prisma.users()
+  res.send(userList)
 })
 
 app.listen(PORT, () => {console.log('listening on port 3000')})
