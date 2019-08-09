@@ -1,0 +1,61 @@
+interface User {
+    id: ID! @unique
+    pseudo: String!
+    email: String! 
+    password: String!
+}
+
+type Client implements User {
+    id: ID! @unique
+    pseudo: String!
+    email: String! 
+    password: String!   
+    myFollowed: [Professional]! @relation(name: "Followers")
+    myVIPaccess: [Professional]! @relation(name: "VIPAccessList")
+    myLikes: [Like]! @relation(name:"LikesPicture")
+}
+
+type Professional implements User {
+    id: ID! @unique
+    pseudo: String!
+    email: String! 
+    password: String!    
+    followers: [Client]! @relation(name: "Followers")
+    myVIPAccessList: [Client]! @relation(name: "VIPAccessList")
+    myPictures: [Picture]! @relation(name: "AvailablePictures")
+    myProfilPicture: Picture! @relation(name:"ProfilPicture")
+}
+
+type Picture {
+    id: ID! @unique @relation(name:"AlbumPictures")
+    owner: Professional! @relation(name: "AvailablePictures")
+    link: String!
+    permission: Permission!
+    tags: [Tags]! 
+    profilePicture: Professional @relation(name:"ProfilPicture")
+    likes: [Like]! @relation(name:"LikesPicture")
+}
+
+type Album {
+    id: ID!
+    name: String!
+    content: [Picture]! @relation(name:"AlbumPictures")
+    permission: Permission!
+}
+
+type Like {
+    pictureID: Picture! @relation(name:"LikesPicture")
+    client : Client!
+}
+
+enum Permission {
+    0 # Public
+    1 # Bronze
+    2 # Silver
+    3 # Gold
+}
+
+enum Tags {
+    BOBS
+    PUS
+}

@@ -1,0 +1,49 @@
+# import Meetup from "./generated/prisma.graphql"
+
+type Query {
+    getPictures(id: ID!): [Pictures]!
+    getPicture(idPicture: ID!): Picture
+    getClients(id: ID!): [Client]!
+    getProfilProfessional(id: ID!): Professional
+    getLikesPicture(id: ID!): [Like]!
+    me: Professional
+}
+
+type Mutation {
+    # Sign up User
+    signupClient(pseudo: String!, email: String!, password: String!) : AuthPayload!
+    signupProfessional(pseudo: String!, email: String!, password: String!) : AuthPayload!
+
+    # Sign in User
+    signinClient(pseudo: String!, email: String!, password: String!) : AuthPayload!
+    signinProfessional(pseudo: String!, email: String!, password: String!) : AuthPayload!
+
+    # Delete an account
+    deleteUser(id: ID!) : User!
+
+    # Follow a Professional 
+    followProfessional(pseudoPro: String!) : Professional!
+
+    # Give an Access to a Professional account
+    giveAccess(pseudoClient: String!, pseudoPro: String!, token: String!): Professional!
+
+    # Add a picture
+    uploadPicture(pseudoPro: String!, tags: Tags!, permission: Permission!): Picture!
+
+    # Remove a picture
+    deletePicture(id: ID!): Picture!
+
+    # Create an Album
+    createAlbum(nameAlbum: String!): Album!
+
+    # Remove from Album
+    deleteAlbum(nameAlbum: String!): Album!
+
+    # Like a picture
+    likePicture(pictureID: String!, clientID: ID!): Like!
+}
+
+type AuthPayload {
+      token: String!
+      user: User!
+    }
